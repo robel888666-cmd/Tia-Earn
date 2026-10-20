@@ -1,0 +1,1568 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#07875c"
+  >
+
+  <meta
+    name="description"
+    content="Tia Earn Secure Admin Panel"
+  >
+
+  <meta
+    name="robots"
+    content="noindex,nofollow,noarchive"
+  >
+
+  <title>Tia Earn | Admin Panel</title>
+
+  <link
+    rel="stylesheet"
+    href="/admin.css"
+  >
+
+  <script
+    src="https://telegram.org/js/telegram-web-app.js"
+  ></script>
+
+  <script
+    src="/admin.js"
+    defer
+  ></script>
+</head>
+
+<body>
+
+  <!-- =====================================
+       LOADING SCREEN
+  ====================================== -->
+
+  <div
+    id="loadingOverlay"
+    class="loading-overlay"
+    hidden
+  >
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <p>অপেক্ষা করুন...</p>
+    </div>
+  </div>
+
+
+  <!-- =====================================
+       TOAST NOTIFICATION
+  ====================================== -->
+
+  <div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+    hidden
+  ></div>
+
+
+  <!-- =====================================
+       ADMIN LOGIN SCREEN
+  ====================================== -->
+
+  <section
+    id="loginScreen"
+    class="login-screen"
+  >
+
+    <div class="login-card">
+
+      <div class="login-logo">
+        <span>TE</span>
+      </div>
+
+      <h1>Tia Earn</h1>
+
+      <p class="login-subtitle">
+        Secure Administration Panel
+      </p>
+
+      <div class="login-security-icon">
+        🔐
+      </div>
+
+      <h2>Admin Authentication</h2>
+
+      <p class="muted">
+        শুধুমাত্র অনুমোদিত Telegram Admin
+        এই প্যানেলে প্রবেশ করতে পারবেন।
+      </p>
+
+      <div
+        id="loginStatus"
+        class="login-status"
+        role="status"
+        aria-live="polite"
+      >
+        Telegram পরিচয় যাচাইয়ের অপেক্ষায়...
+      </div>
+
+      <button
+        id="adminLoginButton"
+        class="btn btn-primary btn-block"
+        type="button"
+      >
+        Telegram দিয়ে লগইন করুন
+      </button>
+
+      <p class="security-note">
+        আপনার Telegram পরিচয় এবং Admin
+        অনুমতি সার্ভারে যাচাই করা হবে।
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       ADMIN APPLICATION
+  ====================================== -->
+
+  <div
+    id="adminApp"
+    class="admin-app"
+    hidden
+  >
+
+    <!-- ===================================
+         SIDEBAR
+    ==================================== -->
+
+    <aside
+      id="sidebar"
+      class="sidebar"
+      aria-label="Admin navigation"
+    >
+
+      <div class="sidebar-header">
+
+        <div class="brand-icon">
+          TE
+        </div>
+
+        <div class="brand-info">
+          <strong>Tia Earn</strong>
+          <small>Administration</small>
+        </div>
+
+        <button
+          id="closeSidebarButton"
+          class="icon-button mobile-only"
+          type="button"
+          aria-label="Close menu"
+        >
+          ✕
+        </button>
+
+      </div>
+
+
+      <div class="admin-profile">
+
+        <div
+          id="adminAvatar"
+          class="admin-avatar"
+        >
+          A
+        </div>
+
+        <div class="admin-profile-info">
+
+          <strong id="adminName">
+            Administrator
+          </strong>
+
+          <small id="adminTelegramId">
+            Telegram ID: —
+          </small>
+
+          <span class="admin-role">
+            ● Authorized Admin
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <nav class="sidebar-nav">
+
+        <button
+          class="nav-link active"
+          data-page="dashboard"
+          type="button"
+        >
+          <span class="nav-icon">📊</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button
+          class="nav-link"
+          data-page="users"
+          type="button"
+        >
+          <span class="nav-icon">👥</span>
+          <span>Users</span>
+        </button>
+
+        <button
+          class="nav-link"
+          data-page="tasks"
+          type="button"
+        >
+          <span class="nav-icon">📋</span>
+          <span>Tasks</span>
+        </button>
+
+        <button
+          class="nav-link"
+          data-page="withdrawals"
+          type="button"
+        >
+          <span class="nav-icon">💳</span>
+          <span>Withdrawals</span>
+        </button>
+
+        <button
+          class="nav-link"
+          data-page="settings"
+          type="button"
+        >
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </button>
+
+        <button
+          class="nav-link"
+          data-page="audit"
+          type="button"
+        >
+          <span class="nav-icon">🛡️</span>
+          <span>Audit Logs</span>
+        </button>
+
+      </nav>
+
+
+      <div class="sidebar-footer">
+
+        <button
+          id="refreshAllButton"
+          class="sidebar-action"
+          type="button"
+        >
+          🔄 Refresh Data
+        </button>
+
+        <button
+          id="logoutButton"
+          class="sidebar-action logout"
+          type="button"
+        >
+          🚪 Logout
+        </button>
+
+        <p class="sidebar-version">
+          Tia Earn Admin v1.0
+        </p>
+
+      </div>
+
+    </aside>
+
+
+    <!-- ===================================
+         MOBILE SIDEBAR OVERLAY
+    ==================================== -->
+
+    <div
+      id="sidebarOverlay"
+      class="sidebar-overlay"
+      hidden
+    ></div>
+
+
+    <!-- ===================================
+         MAIN CONTENT
+    ==================================== -->
+
+    <div class="main-wrapper">
+
+      <!-- HEADER -->
+
+      <header class="top-header">
+
+        <div class="header-left">
+
+          <button
+            id="menuButton"
+            class="icon-button mobile-only"
+            type="button"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
+
+          <div>
+            <h2 id="currentPageTitle">
+              Dashboard
+            </h2>
+
+            <p class="header-subtitle">
+              Tia Earn Management System
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+          <span
+            id="serverStatus"
+            class="server-status"
+          >
+            ● Checking
+          </span>
+
+          <button
+            id="headerRefreshButton"
+            class="icon-button"
+            type="button"
+            title="Refresh"
+            aria-label="Refresh current page"
+          >
+            ↻
+          </button>
+
+          <div
+            id="headerAvatar"
+            class="header-avatar"
+          >
+            A
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <main class="content">
+
+        <!-- ===============================
+             DASHBOARD PAGE
+        ================================ -->
+
+        <section
+          id="page-dashboard"
+          class="admin-page active"
+          data-page="dashboard"
+        >
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Dashboard Overview</h1>
+
+              <p>
+                অ্যাপের গুরুত্বপূর্ণ তথ্য
+                এক জায়গায় দেখুন।
+              </p>
+            </div>
+
+            <button
+              id="dashboardRefreshButton"
+              class="btn btn-outline"
+              type="button"
+            >
+              🔄 Refresh
+            </button>
+
+          </div>
+
+
+          <div class="stats-grid">
+
+            <article class="stat-card">
+
+              <div class="stat-icon green">
+                👥
+              </div>
+
+              <div class="stat-content">
+
+                <p>Total Users</p>
+
+                <h2 id="totalUsers">
+                  —
+                </h2>
+
+                <small>
+                  Registered Accounts
+                </small>
+
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-icon orange">
+                💳
+              </div>
+
+              <div class="stat-content">
+
+                <p>Pending Withdrawals</p>
+
+                <h2 id="pendingWithdrawals">
+                  —
+                </h2>
+
+                <small id="pendingWithdrawalAmount">
+                  ৳0.00
+                </small>
+
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-icon blue">
+                📋
+              </div>
+
+              <div class="stat-content">
+
+                <p>Pending Tasks</p>
+
+                <h2 id="pendingTasks">
+                  —
+                </h2>
+
+                <small>
+                  Waiting for Review
+                </small>
+
+              </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+              <div class="stat-icon purple">
+                💰
+              </div>
+
+              <div class="stat-content">
+
+                <p>Wallet Liability</p>
+
+                <h2 id="walletLiability">
+                  ৳0.00
+                </h2>
+
+                <small>
+                  Total User Balances
+                </small>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <div class="section-grid">
+
+            <article class="panel-card">
+
+              <div class="panel-header">
+                <h3>Quick Actions</h3>
+              </div>
+
+              <div class="quick-actions">
+
+                <button
+                  class="quick-action"
+                  data-page="users"
+                  type="button"
+                >
+                  <span>👥</span>
+                  <strong>Manage Users</strong>
+                </button>
+
+                <button
+                  class="quick-action"
+                  data-page="tasks"
+                  type="button"
+                >
+                  <span>📋</span>
+                  <strong>Review Tasks</strong>
+                </button>
+
+                <button
+                  class="quick-action"
+                  data-page="withdrawals"
+                  type="button"
+                >
+                  <span>💳</span>
+                  <strong>Payments</strong>
+                </button>
+
+                <button
+                  class="quick-action"
+                  data-page="settings"
+                  type="button"
+                >
+                  <span>⚙️</span>
+                  <strong>Settings</strong>
+                </button>
+
+              </div>
+
+            </article>
+
+
+            <article class="panel-card">
+
+              <div class="panel-header">
+                <h3>System Information</h3>
+              </div>
+
+              <div class="info-rows">
+
+                <div class="info-row">
+                  <span>Application</span>
+                  <strong>Tia Earn</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Backend</span>
+                  <strong>Node.js</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Database</span>
+                  <strong>PostgreSQL</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Authentication</span>
+                  <strong>Telegram</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Spin / Lottery</span>
+                  <strong>Disabled</strong>
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        <!-- ===============================
+             USERS PAGE
+        ================================ -->
+
+        <section
+          id="page-users"
+          class="admin-page"
+          data-page="users"
+          hidden
+        >
+
+          <div class="page-heading">
+
+            <div>
+              <h1>User Management</h1>
+
+              <p>
+                ইউজার দেখুন এবং অ্যাকাউন্ট
+                Active বা Block করুন।
+              </p>
+            </div>
+
+            <button
+              id="usersRefreshButton"
+              class="btn btn-outline"
+              type="button"
+            >
+              🔄 Refresh
+            </button>
+
+          </div>
+
+
+          <article class="panel-card">
+
+            <div class="toolbar">
+
+              <div class="search-box">
+
+                <span>🔎</span>
+
+                <input
+                  id="userSearch"
+                  type="search"
+                  placeholder="Name / Telegram ID / Username"
+                  autocomplete="off"
+                >
+
+              </div>
+
+              <select
+                id="userStatusFilter"
+                class="form-control"
+                aria-label="Filter users by status"
+              >
+                <option value="all">
+                  All Users
+                </option>
+
+                <option value="active">
+                  Active
+                </option>
+
+                <option value="blocked">
+                  Blocked
+                </option>
+              </select>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+              <table class="data-table">
+
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Telegram ID</th>
+                    <th>Status</th>
+                    <th>Joined</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody id="usersTableBody">
+
+                  <tr>
+                    <td
+                      colspan="5"
+                      class="empty-state"
+                    >
+                      Loading users...
+                    </td>
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+            <div class="table-footer">
+
+              <span id="usersCount">
+                0 users
+              </span>
+
+              <small>
+                সর্বোচ্চ ২০০টি সাম্প্রতিক
+                ইউজার দেখানো হবে।
+              </small>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- ===============================
+             TASKS PAGE
+        ================================ -->
+
+        <section
+          id="page-tasks"
+          class="admin-page"
+          data-page="tasks"
+          hidden
+        >
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Task Management</h1>
+
+              <p>
+                নতুন টাস্ক তৈরি করুন এবং
+                জমা দেওয়া টাস্ক যাচাই করুন।
+              </p>
+            </div>
+
+            <button
+              id="tasksRefreshButton"
+              class="btn btn-outline"
+              type="button"
+            >
+              🔄 Refresh
+            </button>
+
+          </div>
+
+
+          <div class="section-grid">
+
+            <article class="panel-card">
+
+              <div class="panel-header">
+                <h3>Create New Task</h3>
+              </div>
+
+              <form id="createTaskForm">
+
+                <div class="form-group">
+
+                  <label for="taskTitle">
+                    Task Title
+                  </label>
+
+                  <input
+                    id="taskTitle"
+                    name="title"
+                    type="text"
+                    class="form-control"
+                    placeholder="টাস্কের নাম"
+                    minlength="3"
+                    maxlength="160"
+                    required
+                  >
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="taskDescription">
+                    Description
+                  </label>
+
+                  <textarea
+                    id="taskDescription"
+                    name="description"
+                    class="form-control"
+                    rows="4"
+                    maxlength="2000"
+                    placeholder="টাস্কের বিবরণ লিখুন"
+                  ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="taskReward">
+                    Reward (৳)
+                  </label>
+
+                  <input
+                    id="taskReward"
+                    name="reward"
+                    type="number"
+                    class="form-control"
+                    placeholder="0.00"
+                    min="0"
+                    max="1000"
+                    step="0.01"
+                    required
+                  >
+
+                </div>
+
+
+                <button
+                  id="createTaskButton"
+                  class="btn btn-primary btn-block"
+                  type="submit"
+                >
+                  + Create Task
+                </button>
+
+              </form>
+
+            </article>
+
+
+            <article class="panel-card">
+
+              <div class="panel-header">
+                <h3>Task Statistics</h3>
+              </div>
+
+              <div class="mini-stats">
+
+                <div class="mini-stat">
+
+                  <span>Total Tasks</span>
+
+                  <strong id="adminTotalTasks">
+                    0
+                  </strong>
+
+                </div>
+
+                <div class="mini-stat">
+
+                  <span>Active Tasks</span>
+
+                  <strong id="adminActiveTasks">
+                    0
+                  </strong>
+
+                </div>
+
+                <div class="mini-stat">
+
+                  <span>Pending Submissions</span>
+
+                  <strong id="adminPendingSubmissions">
+                    0
+                  </strong>
+
+                </div>
+
+              </div>
+
+              <div class="notice-box">
+
+                <strong>Task Verification</strong>
+
+                <p>
+                  টাস্ক অনুমোদনের আগে
+                  প্রয়োজনীয় প্রমাণ যাচাই করুন।
+                  অনুমোদন দিলে Backend
+                  রিওয়ার্ড যোগ করবে।
+                </p>
+
+              </div>
+
+            </article>
+
+          </div>
+
+
+          <article class="panel-card">
+
+            <div class="panel-header">
+
+              <h3>All Tasks</h3>
+
+              <span
+                id="taskListCount"
+                class="count-badge"
+              >
+                0
+              </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+              <table class="data-table">
+
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Reward</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+
+                <tbody id="adminTasksTableBody">
+
+                  <tr>
+                    <td
+                      colspan="4"
+                      class="empty-state"
+                    >
+                      Loading tasks...
+                    </td>
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </article>
+
+
+          <article class="panel-card">
+
+            <div class="panel-header">
+
+              <h3>Pending Task Submissions</h3>
+
+              <span
+                id="submissionCount"
+                class="count-badge"
+              >
+                0
+              </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+              <table class="data-table">
+
+                <thead>
+                  <tr>
+                    <th>Submission ID</th>
+                    <th>User ID</th>
+                    <th>Task ID</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody id="taskSubmissionsTableBody">
+
+                  <tr>
+                    <td
+                      colspan="5"
+                      class="empty-state"
+                    >
+                      Loading submissions...
+                    </td>
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- ===============================
+             WITHDRAWALS PAGE
+        ================================ -->
+
+        <section
+          id="page-withdrawals"
+          class="admin-page"
+          data-page="withdrawals"
+          hidden
+        >
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Withdrawal Management</h1>
+
+              <p>
+                bKash ও Binance উত্তোলনের
+                আবেদন যাচাই করুন।
+              </p>
+            </div>
+
+            <button
+              id="withdrawalsRefreshButton"
+              class="btn btn-outline"
+              type="button"
+            >
+              🔄 Refresh
+            </button>
+
+          </div>
+
+
+          <div class="notice-box warning">
+
+            <strong>
+              ⚠️ Payment Safety
+            </strong>
+
+            <p>
+              প্রকৃত পেমেন্ট সম্পন্ন ও
+              ট্রানজ্যাকশন যাচাই করার পরেই
+              Paid নির্বাচন করবেন।
+              এই প্যানেলের Paid বাটন নিজে
+              কোনো টাকা পাঠায় না।
+            </p>
+
+          </div>
+
+
+          <div class="toolbar">
+
+            <div class="search-box">
+
+              <span>🔎</span>
+
+              <input
+                id="withdrawalSearch"
+                type="search"
+                placeholder="Withdrawal ID / Telegram ID"
+                autocomplete="off"
+              >
+
+            </div>
+
+            <select
+              id="withdrawalStatusFilter"
+              class="form-control"
+              aria-label="Filter withdrawals"
+            >
+              <option value="all">
+                All Withdrawals
+              </option>
+
+              <option value="pending">
+                Pending
+              </option>
+
+              <option value="paid">
+                Paid
+              </option>
+
+              <option value="rejected">
+                Rejected
+              </option>
+            </select>
+
+          </div>
+
+
+          <article class="panel-card">
+
+            <div class="table-responsive">
+
+              <table class="data-table">
+
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Method</th>
+                    <th>Account</th>
+                    <th>Amount</th>
+                    <th>Fee</th>
+                    <th>Net</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+
+                <tbody id="withdrawalsTableBody">
+
+                  <tr>
+                    <td
+                      colspan="9"
+                      class="empty-state"
+                    >
+                      Loading withdrawals...
+                    </td>
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+            <div class="table-footer">
+
+              <span id="withdrawalsCount">
+                0 withdrawals
+              </span>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+        <!-- ===============================
+             SETTINGS PAGE
+        ================================ -->
+
+        <section
+          id="page-settings"
+          class="admin-page"
+          data-page="settings"
+          hidden
+        >
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Application Settings</h1>
+
+              <p>
+                অ্যাপের Reward, Withdrawal
+                এবং বিজ্ঞাপনের সীমা নিয়ন্ত্রণ করুন।
+              </p>
+            </div>
+
+            <button
+              id="settingsRefreshButton"
+              class="btn btn-outline"
+              type="button"
+            >
+              🔄 Refresh
+            </button>
+
+          </div>
+
+
+          <article class="panel-card settings-card">
+
+            <form id="settingsForm">
+
+              <div class="settings-section">
+
+                <h3>💳 Withdrawal Settings</h3>
+
+                <div class="form-grid">
+
+                  <div class="form-group">
+
+                    <label for="minWithdrawal">
+                      Minimum Withdrawal (৳)
+                    </label>
+
+                    <input
+                      id="minWithdrawal"
+                      name="minWithdrawal"
+                      class="form-control"
+                      type="number"
+                      min="1"
+                      max="1000000"
+                      step="0.01"
+                      required
+                    >
+
+                  </div>
+
+
+                  <div class="form-group">
+
+                    <label for="withdrawalFeePercent">
+                      Withdrawal Fee (%)
+                    </label>
+
+                    <input
+                      id="withdrawalFeePercent"
+                      name="withdrawalFeePercent"
+                      class="form-control"
+                      type="number"
+                      min="0"
+                      max="30"
+                      step="0.01"
+                      required
+                    >
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="settings-section">
+
+                <h3>📺 Advertisement Settings</h3>
+
+                <div class="form-grid">
+
+                  <div class="form-group">
+
+                    <label for="dailyAdLimit">
+                      Daily Ad Limit
+                    </label>
+
+                    <input
+                      id="dailyAdLimit"
+                      name="dailyAdLimit"
+                      class="form-control"
+                      type="number"
+                      min="0"
+                      max="500"
+                      step="1"
+                      required
+                    >
+
+                  </div>
+
+
+                  <div class="form-group">
+
+                    <label for="adCooldownSeconds">
+                      Ad Cooldown (Seconds)
+                    </label>
+
+                    <input
+                      id="adCooldownSeconds"
+                      name="adCooldownSeconds"
+                      class="form-control"
+                      type="number"
+                      min="0"
+                      max="86400"
+                      step="1"
+                      required
+                    >
+
+                  </div>
+
+                </div>
+
+                <p class="field-help">
+                  এই সেটিংস পরিবর্তন করলেও
+                  Provider Verification ছাড়া
+                  বিজ্ঞাপন রিওয়ার্ড চালু হবে না।
+                </p>
+
+              </div>
+
+
+              <div class="settings-section">
+
+                <h3>👥 Referral Settings</h3>
+
+                <div class="form-grid">
+
+                  <div class="form-group">
+
+                    <label for="referralBonus">
+                      Referral Bonus (৳)
+                    </label>
+
+                    <input
+                      id="referralBonus"
+                      name="referralBonus"
+                      class="form-control"
+                      type="number"
+                      min="0"
+                      max="10000"
+                      step="0.01"
+                      required
+                    >
+
+                  </div>
+
+
+                  <div class="form-group">
+
+                    <label for="referralCommissionPercent">
+                      Referral Commission (%)
+                    </label>
+
+                    <input
+                      id="referralCommissionPercent"
+                      name="referralCommissionPercent"
+                      class="form-control"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="0.01"
+                      required
+                    >
+
+                  </div>
+
+                </div>
+
+                <p class="field-help">
+                  Referral Reward-এর স্বয়ংক্রিয়
+                  Backend Logic এখনো যুক্ত নয়।
+                </p>
+
+              </div>
+
+
+              <div class="settings-section">
+
+                <h3>🛡️ Security Information</h3>
+
+                <div class="info-rows">
+
+                  <div class="info-row">
+                    <span>Telegram Verification</span>
+                    <strong>Server Side</strong>
+                  </div>
+
+                  <div class="info-row">
+                    <span>Admin Authorization</span>
+                    <strong>Telegram ID</strong>
+                  </div>
+
+                  <div class="info-row">
+                    <span>Paid Spin</span>
+                    <strong>Disabled</strong>
+                  </div>
+
+                  <div class="info-row">
+                    <span>Lottery</span>
+                    <strong>Disabled</strong>
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  id="saveSettingsButton"
+                  class="btn btn-primary"
+                  type="submit"
+                >
+                  💾 Save Settings
+                </button>
+
+                <button
+                  id="resetSettingsButton"
+                  class="btn btn-outline"
+                  type="button"
+                >
+                  ↻ Reload Values
+                </button>
+
+              </div>
+
+            </form>
+
+          </article>
+
+        </section>
+
+
+        <!-- ===============================
+             AUDIT LOGS PAGE
+        ================================ -->
+
+        <section
+          id="page-audit"
+          class="admin-page"
+          data-page="audit"
+          hidden
+        >
+
+          <div class="page-heading">
+
+            <div>
+              <h1>Audit Logs</h1>
+
+              <p>
+                Admin কার্যক্রম ও গুরুত্বপূর্ণ
+                পরিবর্তনের ইতিহাস দেখুন।
+              </p>
+            </div>
+
+            <button
+              id="auditRefreshButton"
+              class="btn btn-outline"
+              type="button"
+            >
+              🔄 Refresh
+            </button>
+
+          </div>
+
+
+          <article class="panel-card">
+
+            <div class="toolbar">
+
+              <div class="search-box">
+
+                <span>🔎</span>
+
+                <input
+                  id="auditSearch"
+                  type="search"
+                  placeholder="Search action / actor ID"
+                  autocomplete="off"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+              <table class="data-table">
+
+                <thead>
+                  <tr>
+                    <th>Log ID</th>
+                    <th>Actor ID</th>
+                    <th>Action</th>
+                    <th>Details</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+
+                <tbody id="auditTableBody">
+
+                  <tr>
+                    <td
+                      colspan="5"
+                      class="empty-state"
+                    >
+                      Loading audit logs...
+                    </td>
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+            <div class="table-footer">
+
+              <span id="auditCount">
+                0 logs
+              </span>
+
+              <small>
+                সর্বশেষ ২০০টি লগ দেখানো হবে।
+              </small>
+
+            </div>
+
+          </article>
+
+        </section>
+
+      </main>
+
+
+      <!-- =================================
+           FOOTER
+      ================================== -->
+
+      <footer class="admin-footer">
+
+        <span>
+          © Tia Earn Administration
+        </span>
+
+        <span>
+          Secure Admin Access
+        </span>
+
+      </footer>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================
+       CONFIRMATION MODAL
+  ====================================== -->
+
+  <dialog
+    id="confirmDialog"
+    class="confirm-dialog"
+    aria-labelledby="confirmTitle"
+  >
+
+    <div class="dialog-content">
+
+      <div class="dialog-icon">
+        ⚠️
+      </div>
+
+      <h3 id="confirmTitle">
+        Confirm Action
+      </h3>
+
+      <p id="confirmMessage">
+        Are you sure?
+      </p>
+
+      <div class="dialog-actions">
+
+        <button
+          id="confirmCancelButton"
+          class="btn btn-outline"
+          type="button"
+        >
+          Cancel
+        </button>
+
+        <button
+          id="confirmActionButton"
+          class="btn btn-danger"
+          type="button"
+        >
+          Confirm
+        </button>
+
+      </div>
+
+    </div>
+
+  </dialog>
+
+
+  <!-- =====================================
+       APPLICATION INFORMATION
+  ====================================== -->
+
+  <noscript>
+    <div class="noscript-warning">
+      এই Admin Panel চালাতে JavaScript
+      চালু থাকতে হবে।
+    </div>
+  </noscript>
+
+</body>
+</html>

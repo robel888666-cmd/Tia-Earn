@@ -1,0 +1,38 @@
+
+{
+  "name": "tia-earn",
+  "version": "1.0.0",
+  "description": "Tia Earn Secure Telegram Mini App with User Dashboard, Admin Panel, Ads, Tasks, Referrals, Wallet and Payment Management",
+  "private": true,
+  "type": "commonjs",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22 <25",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js",
+    "test": "npm run check"
+  },
+  "dependencies": {
+    "dotenv": "16.6.1",
+    "express": "4.21.2",
+    "express-rate-limit": "7.5.1",
+    "helmet": "8.1.0",
+    "pg": "8.16.3"
+  },
+  "keywords": [
+    "telegram",
+    "telegram-mini-app",
+    "tia-earn",
+    "nodejs",
+    "express",
+    "postgresql",
+    "referral",
+    "wallet",
+    "admin-panel"
+  ],
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,182 @@
+
+# ==========================================
+# TIA EARN - GITIGNORE
+# Node.js + Telegram Mini App + PostgreSQL
+# ==========================================
+
+
+# ------------------------------------------
+# 1. ENVIRONMENT VARIABLES & SECRETS
+# ------------------------------------------
+
+.env
+.env.*
+!.env.example
+
+*.secret
+*.secrets
+
+secrets/
+private/
+credentials/
+
+
+# ------------------------------------------
+# 2. NODE.JS DEPENDENCIES
+# ------------------------------------------
+
+node_modules/
+**/node_modules/
+
+.npm/
+.pnpm-store/
+.yarn/cache/
+.yarn/unplugged/
+
+
+# ------------------------------------------
+# 3. LOG FILES
+# ------------------------------------------
+
+*.log
+logs/
+**/logs/
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+*.log.*
+*.pid
+*.pid.lock
+
+
+# ------------------------------------------
+# 4. DATABASE BACKUPS & DUMPS
+# ------------------------------------------
+
+*.dump
+*.backup
+*.bak
+
+*.sqlite
+*.sqlite3
+*.db
+
+database-backups/
+db-backups/
+backups/
+
+
+# ------------------------------------------
+# 5. PRIVATE KEYS & CERTIFICATES
+# ------------------------------------------
+
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+
+*.crt
+*.cer
+
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+
+# ------------------------------------------
+# 6. TEMPORARY FILES
+# ------------------------------------------
+
+tmp/
+temp/
+.cache/
+.cache-loader/
+
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+
+# ------------------------------------------
+# 7. BUILD & TEST OUTPUT
+# ------------------------------------------
+
+dist/
+build/
+coverage/
+.nyc_output/
+
+*.tsbuildinfo
+
+
+# ------------------------------------------
+# 8. EDITOR & OPERATING SYSTEM
+# ------------------------------------------
+
+.vscode/
+.idea/
+
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+*.sublime-workspace
+
+
+# ------------------------------------------
+# 9. DEPLOYMENT CACHE
+# ------------------------------------------
+
+.vercel/
+.netlify/
+.next/
+.nuxt/
+
+.turbo/
+.parcel-cache/
+
+
+# ------------------------------------------
+# 10. LOCAL CONFIGURATION
+# ------------------------------------------
+
+config.local.js
+config.local.json
+
+settings.local.json
+
+*.local
+
+
+# ------------------------------------------
+# 11. PRIVATE USER DATA & EXPORTS
+# ------------------------------------------
+
+exports/
+private-uploads/
+
+*.session
+*.session-journal
+
+
+# ------------------------------------------
+# 12. FILES THAT SHOULD REMAIN TRACKED
+# ------------------------------------------
+
+# Keep package.json in GitHub.
+# Keep package-lock.json in GitHub.
+# Keep .env.example in GitHub.
+# Keep public/ source files in GitHub.
+# Keep sql/schema.sql in GitHub.
+
+
+# ==========================================
+# END OF TIA EARN GITIGNORE
+# ==========================================
